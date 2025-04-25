@@ -1,38 +1,34 @@
-# sv
+# SvelteKit Front-end
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-## Creating a project
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Desarrollo
 
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Una vez que hayas creado un proyecto e instalado las dependencias con `npm install` (o `pnpm install` o `yarn`), inicia un servidor de desarrollo:
 
 ```bash
 npm run dev
 
-# or start the server and open the app in a new browser tab
+# o inicia el servidor y abre la aplicación en una nueva pestaña del navegador
 npm run dev -- --open
 ```
 
-## Building
+## Mejoras
 
-To create a production version of your app:
+### Redirección desde la Página de Inicio al Flujo de Creación de Pagos
 
-```bash
-npm run build
+Para implementar la redirección desde la página de inicio al flujo de creación de pagos, asegúrate de que tu lógica de enrutamiento esté configurada correctamente en tu aplicación SvelteKit. Esto generalmente implica modificar el archivo `src/routes/index.svelte` para redirigir a los usuarios al flujo de pagos cuando accedan a la página de inicio.
+
+> Para desplegar tu aplicación, es posible que necesites instalar un [adaptador](https://svelte.dev/docs/kit/adapters) para tu entorno de destino.
+
+## Variables de Entorno
+
+Para gestionar las variables de entorno, crea un archivo `.env` en la raíz de tu proyecto y agrega la siguiente línea:
+
+```
+VITE_REDIRECT_URL=http://localhost:4200/
 ```
 
-You can preview the production build with `npm run preview`.
+Esta variable se puede utilizar en tu aplicación para manejar la lógica de redirección de manera dinámica.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+--- 
