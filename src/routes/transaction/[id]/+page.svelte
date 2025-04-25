@@ -13,11 +13,11 @@
 
     onMount(async () => {
         try {
-            const paymentMethodsResponse = await axios.get('http://127.0.0.1:8000/api/getPaymentsMethods');
+            const paymentMethodsResponse = await axios.get('http://127.0.0.1:8000/api/v1/paymentMethods');
             paymentMethods = paymentMethodsResponse.data.data;
 
             const transactionId = $page.params.id;
-            const transactionResponse = await axios.get(`http://127.0.0.1:8000/api/getTransaction`, { params: { id: transactionId } });
+            const transactionResponse = await axios.get(`http://127.0.0.1:8000/api/v1/transactions/${transactionId}` );
             transaction = transactionResponse.data.data;
             
             if (transaction) {
@@ -43,7 +43,7 @@
                 transaction_id: $page.params.id
             };
 
-            const response = await axios.post('http://127.0.0.1:8000/api/generatePayment', paymentData);
+            const response = await axios.put('http://127.0.0.1:8000/api/v1/payment', paymentData);
             
             if (response.data.status === 'success') {
                 // Redirect to voucher page
@@ -101,7 +101,7 @@
                                                 class="form-check-input" 
                                                 type="radio" 
                                                 name="paymentMethod" 
-                                                id={method.name}
+                                                id={method.id}
                                                 value={method.name}
                                                 bind:group={selectedPaymentMethod}
                                             >

@@ -1,7 +1,8 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { page } from '$app/stores';
-    import axios from 'axios';
+    import { fetchTransaction } from '../transactionService';
+    import { getStatusBadgeClass } from '../transactionUtils';
     import { error } from '@sveltejs/kit';
 
     let transaction: any | null = null;
@@ -11,8 +12,7 @@
         try {
             loading = true;
             const transactionId = $page.params.id;
-            const response = await axios.get(`http://127.0.0.1:8000/api/getTransaction`, { params: { id: transactionId } });
-            transaction = response.data.data;
+            transaction = await fetchTransaction(transactionId);
         } catch (e) {
             console.error('Error fetching transaction:', e);
             throw error(500, 'Error fetching transaction');
@@ -21,24 +21,12 @@
         }
     });
 
-    function getStatusBadgeClass(status: string): string {
-        switch (status.toLowerCase()) {
-            case 'success':
-            case 'completed':
-                return 'bg-success';
-            case 'pending':
-                return 'bg-warning';
-            case 'failed':
-            case 'error':
-                return 'bg-danger';
-            default:
-                return 'bg-secondary';
-        }
-    }
+    
 </script>
 
 <svelte:head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
 </svelte:head>
 
 <div class="container mt-5">
@@ -88,11 +76,3 @@
         </div>
     {/if}
 </div>
-
-<style>
-    @media print {
-        .btn {
-            display: none !important;
-        }
-    }
-</style>
